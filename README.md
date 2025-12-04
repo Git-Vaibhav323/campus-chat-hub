@@ -1,73 +1,111 @@
-# Welcome to your Lovable project
+# Campus Chat Hub
 
-## Project info
+A real-time chat application for campus communities. No login required - just open and start chatting!
 
-**URL**: https://lovable.dev/projects/b4f51c2b-c81b-4375-bd99-46eaa0d00f7b
+## Features
 
-## How can I edit this code?
+- ⚡ **Ultra-fast real-time messaging** - Powered by Supabase Realtime (sub-second sync!)
+- 👤 **Auto-generated usernames** - No registration needed
+- ☁️ **Cloud database** - Messages saved in Supabase (PostgreSQL)
+- 🗑️ **Auto-cleanup** - Messages automatically deleted after 1 week
+- 📱 **Responsive design** - Works on desktop and mobile
+- 🌐 **Scalable** - Handles thousands of concurrent users
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, shadcn/ui
+- **Backend**: Supabase (PostgreSQL + Realtime)
+- **Database**: Supabase (PostgreSQL with real-time subscriptions)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b4f51c2b-c81b-4375-bd99-46eaa0d00f7b) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or higher)
+- npm
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+```bash
+git clone https://github.com/Git-Vaibhav323/campus-chat-hub.git
+cd campus-chat-hub
+```
 
-Follow these steps:
+2. Install dependencies:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Set up Supabase:
+   - Create a free account at [supabase.com](https://supabase.com)
+   - Create a new project
+   - Run the SQL schema from `supabase/schema.sql` in the Supabase SQL Editor
+   - Get your API keys from Settings → API
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. Configure environment variables:
+   - Copy `.env.example` to `.env`
+   - Add your Supabase URL and anon key:
+   ```env
+   VITE_SUPABASE_URL=https://your-project-id.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key-here
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+5. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+6. Open your browser:
+   - Frontend: http://localhost:8081
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+> **Note**: No backend server needed! Supabase handles everything in the cloud.
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+campus-chat-hub/
+├── supabase/         # Supabase setup files
+│   ├── schema.sql    # Database schema
+│   └── cleanup-function.sql  # Cleanup function
+├── src/              # Frontend React app
+│   ├── components/   # React components
+│   ├── lib/          # Utilities (Supabase client)
+│   ├── pages/        # Page components
+│   └── types/        # TypeScript types
+└── package.json      # Dependencies
+```
 
-## What technologies are used for this project?
+## How It Works
 
-This project is built with:
+1. **Auto-Username**: When you open the app, a unique username is automatically generated (e.g., "MysticPhoenix1234")
+2. **Real-time Chat**: Messages sync instantly via Supabase Realtime (sub-second latency!)
+3. **Cloud Database**: All messages are stored in Supabase PostgreSQL database
+4. **Auto-cleanup**: Messages older than 1 week are automatically deleted (via Edge Function or cron)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Environment Variables
 
-## How can I deploy this project?
+Create a `.env` file:
 
-Simply open [Lovable](https://lovable.dev/projects/b4f51c2b-c81b-4375-bd99-46eaa0d00f7b) and click on Share -> Publish.
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key-here
+```
 
-## Can I connect a custom domain to my Lovable project?
+See `SUPABASE_SETUP.md` for detailed setup instructions.
 
-Yes, you can!
+## Building for Production
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+npm run build
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+The built files will be in the `dist` directory.
+
+## License
+
+MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
