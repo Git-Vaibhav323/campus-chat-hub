@@ -31,85 +31,84 @@ const Index = () => {
 
   // Handle voting
   const handleVote = (postId: string, vote: "up" | "down") => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) => {
+    setPosts((prev) =>
+      prev.map((post) => {
         if (post.id !== postId) return post;
 
         const currentVote = post.userVote;
-        let newUpvotes = post.upvotes;
-        let newDownvotes = post.downvotes;
-        let newUserVote: "up" | "down" | null = vote;
+        let upvotes = post.upvotes;
+        let downvotes = post.downvotes;
+        let newVote: "up" | "down" | null = vote;
 
-        // If clicking the same vote, remove it
+        // Remove previous vote
+        if (currentVote === "up") upvotes--;
+        if (currentVote === "down") downvotes--;
+
+        // Toggle or set new vote
         if (currentVote === vote) {
-          newUserVote = null;
-          if (vote === "up") {
-            newUpvotes = Math.max(0, post.upvotes - 1);
-          } else {
-            newDownvotes = Math.max(0, post.downvotes - 1);
-          }
+          newVote = null;
         } else {
-          // If switching votes or adding new vote
-          if (currentVote === "up") {
-            newUpvotes = Math.max(0, post.upvotes - 1);
-          } else if (currentVote === "down") {
-            newDownvotes = Math.max(0, post.downvotes - 1);
-          }
-
-          if (vote === "up") {
-            newUpvotes = post.upvotes + 1;
-          } else {
-            newDownvotes = post.downvotes + 1;
-          }
+          if (vote === "up") upvotes++;
+          if (vote === "down") downvotes++;
         }
 
-        return {
-          ...post,
-          upvotes: newUpvotes,
-          downvotes: newDownvotes,
-          userVote: newUserVote,
-        };
+        return { ...post, upvotes, downvotes, userVote: newVote };
       })
     );
   };
 
   // Handle new post
   const handleNewPost = (content: string, category: Category) => {
+    const usernames = [
+      "MysticPhoenix",
+      "SilentStorm",
+      "CrypticShadow",
+      "NeonDreamer",
+      "PixelWanderer",
+    ];
+    const colors = [
+      "bg-emerald-600",
+      "bg-blue-600",
+      "bg-purple-600",
+      "bg-pink-600",
+      "bg-orange-600",
+    ];
+    const randomName = usernames[Math.floor(Math.random() * usernames.length)];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
     const newPost: Post = {
-      id: Date.now().toString(),
-      username: "You",
-      avatarInitial: "Y",
-      avatarColor: "bg-primary",
+      id: `new-${Date.now()}`,
       content,
+      username: randomName + Math.floor(Math.random() * 1000),
+      avatarInitial: randomName[0],
+      avatarColor: randomColor,
       category,
       timestamp: new Date(),
-      upvotes: 0,
+      upvotes: 1,
       downvotes: 0,
       commentCount: 0,
-      userVote: null,
+      userVote: "up",
     };
 
-    setPosts((prevPosts) => [newPost, ...prevPosts]);
+    setPosts((prev) => [newPost, ...prev]);
     setNewPostIds((prev) => new Set(prev).add(newPost.id));
-    setIsNewPostOpen(false);
 
-    // Remove from new posts after 3 seconds
     setTimeout(() => {
       setNewPostIds((prev) => {
-        const updated = new Set(prev);
-        updated.delete(newPost.id);
-        return updated;
+        const next = new Set(prev);
+        next.delete(newPost.id);
+        return next;
       });
-    }, 3000);
+    }, 500);
   };
 
   return (
     <>
       <Helmet>
-        <title>Campus Chat Hub - Forum</title>
+        <title>Vhispers - Campus Forum</title>
         <meta
           name="description"
-          content="Campus forum. Share posts, discuss topics, and connect with your campus community."
+          content="Anonymous campus forum for college students. Share thoughts, ask questions, and connect with your campus community."
         />
       </Helmet>
 
@@ -157,7 +156,9 @@ const Index = () => {
             {/* Sidebar - Desktop only */}
             <div className="hidden lg:block">
               <div className="sticky top-[140px]">
-                <Sidebar trending={trendingPosts} />
+                <Sidebar
+                  trending={trendingPosts}
+                />
               </div>
             </div>
           </div>

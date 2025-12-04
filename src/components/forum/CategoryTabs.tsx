@@ -12,22 +12,25 @@ const CategoryTabs = ({ activeCategory, onCategoryChange }: CategoryTabsProps) =
   return (
     <div className="sticky top-[65px] z-40 bg-background/95 backdrop-blur-md border-b border-border">
       <ScrollArea className="w-full">
-        <div className="flex items-center gap-2 px-4 py-3 min-w-max">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => onCategoryChange(cat.id)}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap",
-                activeCategory === cat.id
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                  : "bg-secondary text-secondary-foreground hover:bg-muted"
-              )}
-            >
-              <span>{cat.icon}</span>
-              <span>{cat.label}</span>
-            </button>
-          ))}
+        <div className="flex items-center justify-center gap-2 px-4 py-3 min-w-max">
+          {categories.map((cat) => {
+            const IconComponent = cat.icon;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => onCategoryChange(cat.id)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap",
+                  activeCategory === cat.id
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+                    : "bg-secondary text-secondary-foreground hover:bg-muted"
+                )}
+              >
+                <IconComponent className="w-4 h-4" />
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
         <ScrollBar orientation="horizontal" className="invisible" />
       </ScrollArea>
